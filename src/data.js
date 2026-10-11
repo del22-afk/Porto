@@ -6,7 +6,7 @@ export const profile = {
   tagline: 'Building thoughtful, modern, and easy-to-use interfaces.',
   location: 'Jakarta, Indonesia',
   email: 'delvyn@email.com',
-  photo: '/images/profile.jpg',
+  photo: `${import.meta.env.BASE_URL}images/profile.jpg`,
   photoPath: 'public/images/profile.jpg',
   about: [
     'I am an Information Technology student focused on frontend development, shaping clear user flows and responsive interfaces.',
@@ -37,7 +37,7 @@ const shot = (folder, id, label, device = '') => {
   return {
     id: `${device || 'screen'}-${id}`,
     label,
-    src: `/images/projects/${folder}/${file}${folder === 'fti-news' ? '?v=3' : folder === 'wanderwhale' ? '?v=1' : folder === 'altar' ? '?v=2' : ''}`,
+    src: `${import.meta.env.BASE_URL}images/projects/${folder}/${file}${folder === 'fti-news' ? '?v=3' : folder === 'wanderwhale' ? '?v=1' : folder === 'altar' ? '?v=2' : ''}`,
     path: `public/images/projects/${folder}/${file}`,
     fullPage: folder === 'fti-news' || folder === 'wanderwhale' || (folder === 'altar' && id.endsWith('-design')),
   }

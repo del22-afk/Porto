@@ -46,7 +46,7 @@ export default function MusicPlayer() {
     <div className={`music ${playing ? 'is-playing' : ''}`}>
       <audio
         ref={audioRef}
-        src="/audio/ambient.mp3"
+        src={`${import.meta.env.BASE_URL}audio/ambient.mp3`}
         autoPlay
         loop
         preload="metadata"
