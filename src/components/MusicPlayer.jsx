@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 
 export default function MusicPlayer() {
   const audioRef = useRef(null)
+  const manuallyPaused = useRef(false)
   const [playing, setPlaying] = useState(false)
   useEffect(() => {
     const audio = audioRef.current
@@ -11,6 +12,20 @@ export default function MusicPlayer() {
     audio.play()
       .then(() => setPlaying(true))
       .catch(() => setPlaying(false))
+
+    const resumeAfterInteraction = (event) => {
+      if (manuallyPaused.current || event.target.closest?.('.music') || !audio.paused) return
+      audio.play()
+        .then(() => setPlaying(true))
+        .catch(() => setPlaying(false))
+    }
+
+    window.addEventListener('pointerdown', resumeAfterInteraction)
+    window.addEventListener('keydown', resumeAfterInteraction)
+    return () => {
+      window.removeEventListener('pointerdown', resumeAfterInteraction)
+      window.removeEventListener('keydown', resumeAfterInteraction)
+    }
   }, [])
 
   const toggle = async () => {
@@ -18,12 +33,14 @@ export default function MusicPlayer() {
     if (!audio) return
 
     if (playing) {
+      manuallyPaused.current = true
       audio.pause()
       setPlaying(false)
       return
     }
 
     try {
+      manuallyPaused.current = false
       await audio.play()
       setPlaying(true)
     } catch {
